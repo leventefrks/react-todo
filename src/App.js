@@ -2,33 +2,41 @@ import React from 'react';
 
 const Title = () => { return <h1 className="text-center" style={{color: '#009688'}}>React Todo built with Bootstrap 4</h1> }
 
-const TodoInput = ({addTodo}) => {
+const TodoInput = ({addItem}) => {
   let input;
-
   return (
     <form onSubmit={ (e) => {
       e.preventDefault();
-        addTodo(input.value);
+        addItem(input.value);
         input.value = '';
     }}>
     <input className="form-control col-md-12" ref={ node => {input = node}}/>
-    <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => addTodo(input.value)}>Add Todo</button>
+    <button type="button" className="btn btn-lg btn-block btn-primary" onClick={() => addItem(input.value)}>Add Todo</button>
       </form>
   );
 };
 
-const TodoList = ({todos, remove}) => {
+const TodoList = ({todos, removeItem}) => {
   const todoNode = todos.map((todo) => {
-    return (<Todo todo={todo} key={todo.id} remove={remove}/>)
+    return (<Todo todo={todo} key={todo.id} removeItem={removeItem}/>)
   });
   return (<ul className="list-group" style={{marginTop:'10px'}}>{todoNode}</ul>);
 }
 
-const Todo = ({todo, remove}) => {
+const Todo = ({todo, removeItem}) => {
   return (
-  <a href="#" className="list-group-item border border-secondary" style={{backgroundColor: '#eee',marginBottom: '10px'}}>{todo.id}. {todo.text}
-  <button type="button" className="close" aria-label="Close" onClick={() => {remove(todo.id)}}>
-  <span aria-hidden="true">&times;</span>
+  <a
+  href="#" 
+  className="list-group-item border border-secondary"
+  style={{backgroundColor: '#eee',marginBottom: '10px'}}>
+  {todo.id}. {todo.text}
+  <button 
+  type="button"
+  className="close"
+  aria-label="Close"
+  onClick={() => {removeItem(todo.id)}}>
+  <span
+  aria-hidden="true">&times;</span>
 </button></a>
   );
 }
@@ -62,11 +70,11 @@ class TodoApp extends React.Component{
     return (
       <div className="container">
         <Title />
-        <TodoInput addTodo={this.addItem.bind(this)}/>
+        <TodoInput addItem={this.addItem.bind(this)}/>
 
         <TodoList 
           todos={this.state.data} 
-          remove={this.removeItem.bind(this)}
+          removeItem={this.removeItem.bind(this)}
         />
       </div>
     );
